@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Libreta Virtual | Gestión escolar para colegios argentinos</title>
+<meta name="description" content="Notas, asistencia, convivencia y horarios en un solo sistema. Las familias consultan la libreta con DNI y código de verificación.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS (cambiá acá colores y fuentes) ============ */
+:root{
+  --tinta:#13233d;      /* fondo oscuro del hero */
+  --oxford:#1d4e89;     /* color de marca */
+  --oxford-2:#2a64a8;
+  --cielo:#9cc2ee;      /* acento claro */
+  --tiza:#f4f6f9;       /* fondo de secciones claras */
+  --papel:#ffffff;
+  --texto:#1b2433;
+  --texto-2:#56627a;
+  --linea:#dfe5ee;
+  --birome:#c8453c;     /* rojo de corrección, usar poco */
+  --radio-l:22px; --radio-m:14px; --radio-s:8px;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"Manrope", "Segoe UI", system-ui, sans-serif;
+  --mano:"Caveat", "Comic Sans MS", cursive;
+  --ancho:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);color:var(--texto);background:var(--papel);line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--cielo);outline-offset:3px;border-radius:6px}
+.wrap{width:min(var(--ancho),100% - 40px);margin-inline:auto}
+h1,h2,h3{font-family:var(--display);line-height:1.08;letter-spacing:-.02em}
+
+/* ============ NAV ============ */
+.nav{position:sticky;top:0;z-index:20;background:rgba(19,35,61,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:20px}
+.marca{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;font-family:var(--display);font-weight:700;font-size:1.15rem}
+.marca svg{width:28px;height:28px}
+.nav ul{display:flex;gap:6px;list-style:none}
+.nav ul a{color:rgba(255,255,255,.8);text-decoration:none;font-size:.92rem;font-weight:500;padding:8px 12px;border-radius:8px}
+.nav ul a:hover{color:#fff;background:rgba(255,255,255,.07)}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--body);font-weight:700;font-size:.95rem;text-decoration:none;border-radius:10px;padding:12px 20px;border:1px solid transparent;cursor:pointer;transition:transform .15s ease,background .15s ease}
+.btn:active{transform:translateY(1px)}
+.btn-claro{background:#fff;color:var(--tinta)}
+.btn-claro:hover{background:#e9f0fa}
+.btn-borde{border-color:rgba(255,255,255,.25);color:#fff}
+.btn-borde:hover{background:rgba(255,255,255,.08)}
+.btn-marca{background:var(--oxford);color:#fff}
+.btn-marca:hover{background:var(--oxford-2)}
+.btn-chico{padding:8px 14px;font-size:.88rem}
+.menu-toggle{display:none;background:none;border:0;color:#fff;cursor:pointer;padding:8px}
+
+/* ============ HERO ============ */
+.hero{background:var(--tinta);color:#fff;padding:88px 0 0;overflow:hidden;position:relative}
+.hero::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(600px 380px at 78% 30%, rgba(42,100,168,.45), transparent 70%),
+  repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 1px, transparent 1px 32px);pointer-events:none}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center}
+.aviso{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:#dbe7f7;border-radius:40px;padding:6px 14px 6px 6px;font-size:.88rem;font-weight:600;text-decoration:none;margin-bottom:28px}
+.aviso b{background:var(--cielo);color:var(--tinta);border-radius:30px;padding:3px 10px;font-size:.8rem}
+.hero h1{font-size:clamp(2.6rem,5.4vw,4.4rem);font-weight:800;margin-bottom:22px}
+.hero p.bajada{font-size:1.18rem;color:rgba(255,255,255,.78);max-width:34ch;margin-bottom:34px}
+.acciones{display:flex;flex-wrap:wrap;gap:12px}
+.hero-visual{position:relative;padding-bottom:64px}
+
+/* La libreta: elemento protagonista */
+.libreta{background:#fdfdfb;color:var(--texto);border-radius:var(--radio-l) var(--radio-l) 0 0;padding:26px 26px 30px;box-shadow:0 30px 80px rgba(0,0,0,.35);transform:rotate(-1.5deg);position:relative;
+  background-image:linear-gradient(90deg, transparent 38px, rgba(200,69,60,.25) 38px 39px, transparent 39px);}
+.libreta-top{display:flex;justify-content:space-between;align-items:flex-start;padding-left:26px;margin-bottom:18px}
+.libreta-top small{display:block;color:var(--texto-2);font-size:.8rem}
+.libreta-top strong{font-family:var(--display);font-size:1.25rem}
+.sello{border:2px solid var(--oxford);color:var(--oxford);border-radius:8px;padding:4px 10px;font-size:.75rem;font-weight:700;transform:rotate(4deg)}
+.libreta table{width:100%;border-collapse:collapse;font-size:.92rem;margin-left:12px;width:calc(100% - 12px)}
+.libreta th{font-weight:600;color:var(--texto-2);font-size:.78rem;text-align:center;padding:6px 4px;border-bottom:1.5px solid var(--linea)}
+.libreta th:first-child,.libreta td:first-child{text-align:left;padding-left:14px}
+.libreta td{padding:9px 4px;border-bottom:1px dashed var(--linea);text-align:center;font-variant-numeric:tabular-nums}
+.nota-mano{font-family:var(--mano);font-size:1.35rem;color:var(--oxford);line-height:1}
+.nota-roja{font-family:var(--mano);font-size:1.35rem;color:var(--birome);position:relative;display:inline-block;line-height:1}
+.nota-roja::after{content:"";position:absolute;inset:-6px -9px;border:2px solid var(--birome);border-radius:50%;transform:rotate(-8deg);opacity:.8}
+.libreta-pie{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 0 26px}
+.dato{background:var(--tiza);border-radius:30px;padding:5px 12px;font-size:.8rem;font-weight:600;color:var(--texto-2)}
+.flotante{position:absolute;background:#fff;color:var(--texto);border-radius:var(--radio-m);box-shadow:0 18px 40px rgba(0,0,0,.28);padding:14px 16px;font-size:.85rem;display:flex;gap:12px;align-items:center}
+.flotante .ico{width:36px;height:36px;border-radius:10px;background:#e7f0fb;display:grid;place-items:center;flex:none}
+.flotante b{display:block;font-size:.9rem}
+.f1{left:-34px;bottom:20px}
+.f2{right:-18px;top:-22px}
+.codigo{font-family:var(--display);letter-spacing:.2em;font-weight:700;color:var(--oxford)}
+
+/* ============ FRANJA ============ */
+.franja{background:var(--tinta);color:rgba(255,255,255,.7);border-top:1px solid rgba(255,255,255,.08);padding:26px 0;overflow:hidden}
+.franja p{text-align:center;font-size:.9rem;margin-bottom:14px}
+.cinta{display:flex;gap:44px;width:max-content;animation:correr 38s linear infinite}
+.cinta span{font-family:var(--display);font-size:1.25rem;font-weight:600;color:rgba(255,255,255,.88);white-space:nowrap}
+.cinta span i{font-style:normal;color:var(--cielo)}
+.mascara{-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+@keyframes correr{to{transform:translateX(-50%)}}
+
+/* ============ SECCIONES ============ */
+section.bloque{padding:110px 0}
+.cabeza{max-width:640px;margin:0 auto 60px;text-align:center}
+.cabeza h2{font-size:clamp(2rem,4vw,3rem);font-weight:800;margin-bottom:16px}
+.cabeza p{color:var(--texto-2);font-size:1.12rem}
+
+/* Cómo funciona: pasos + vista previa */
+.pasos-grid{display:grid;grid-template-columns:400px 1fr;gap:56px;align-items:center}
+.pasos{list-style:none}
+.paso{border-top:1px solid var(--linea)}
+.paso:first-child{border-top:0}
+.paso button{all:unset;display:block;width:100%;padding:22px 0;cursor:pointer}
+.paso button:focus-visible{outline:3px solid var(--cielo)}
+.paso .tit{display:flex;gap:12px;align-items:center;font-weight:700;font-size:1.05rem;color:var(--texto-2)}
+.paso .num{width:28px;height:28px;border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;font-size:.82rem;flex:none}
+.paso p{color:var(--texto-2);margin-top:8px;padding-left:40px;display:none}
+.paso.activo .tit{color:var(--oxford)}
+.paso.activo .num{background:var(--oxford);border-color:var(--oxford);color:#fff}
+.paso.activo p{display:block}
+.vista{background:var(--tiza);border:1px solid var(--linea);border-radius:var(--radio-l);padding:28px;min-height:380px;box-shadow:0 2px 4px rgba(19,35,61,.06),0 20px 40px rgba(19,35,61,.08)}
+.panel{display:none;background:#fff;border-radius:var(--radio-m);border:1px solid var(--linea);overflow:hidden}
+.panel.visible{display:block;animation:aparecer .35s ease}
+@keyframes aparecer{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.panel-barra{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--linea);font-weight:700;font-size:.92rem}
+.panel-barra span{font-weight:500;color:var(--texto-2);font-size:.82rem}
+.panel-cuerpo{padding:18px}
+.fila{display:grid;grid-template-columns:1fr 70px 70px 70px;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid var(--tiza);font-size:.9rem}
+.fila.enc{font-size:.76rem;color:var(--texto-2);font-weight:600}
+.celda{background:var(--tiza);border-radius:6px;text-align:center;padding:6px 0;font-weight:700;font-variant-numeric:tabular-nums}
+.celda.editando{background:#fff;outline:2px solid var(--oxford);color:var(--oxford)}
+.guardado{margin-top:14px;font-size:.84rem;color:#2e7d4f;font-weight:600}
+.consulta{max-width:320px;margin:10px auto;text-align:center}
+.consulta h4{font-family:var(--display);font-size:1.2rem;margin-bottom:6px}
+.consulta p{color:var(--texto-2);font-size:.88rem;margin-bottom:18px}
+.campo{border:1.5px solid var(--linea);border-radius:10px;padding:11px 14px;text-align:left;font-size:.92rem;margin-bottom:10px;color:var(--texto-2)}
+.campo b{color:var(--texto)}
+.digitos{display:flex;gap:8px;justify-content:center;margin:6px 0 16px}
+.digitos span{width:40px;height:48px;border:1.5px solid var(--oxford);border-radius:10px;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:1.2rem;color:var(--oxford)}
+.evento{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--tiza);font-size:.9rem}
+.evento:last-child{border-bottom:0}
+.punto{width:10px;height:10px;border-radius:50%;margin-top:7px;flex:none}
+.evento small{display:block;color:var(--texto-2);font-size:.8rem}
+
+/* Productos */
+.productos{background:var(--tiza)}
+.prod-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:24px}
+.prod{background:#fff;border:1px solid var(--linea);border-radius:var(--radio-l);padding:40px;display:flex;flex-direction:column}
+.prod.principal{background:var(--oxford);color:#fff;border-color:var(--oxford)}
+.prod h3{font-size:2rem;font-weight:800;margin-bottom:12px}
+.prod>p{margin-bottom:24px;opacity:.85;max-width:44ch}
+.prod ul{list-style:none;display:grid;gap:10px;margin-bottom:32px}
+.prod li{display:flex;gap:10px;align-items:flex-start}
+.prod li svg{flex:none;margin-top:4px}
+.estado{align-self:flex-start;font-size:.8rem;font-weight:700;border-radius:30px;padding:4px 12px;margin-bottom:18px}
+.principal .estado{background:rgba(255,255,255,.15);color:#fff}
+.prod:not(.principal) .estado{background:#fff4e0;color:#8a5a00}
+.prod .btn{margin-top:auto;align-self:flex-start}
+
+/* Beneficios */
+.ben-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:48px 56px}
+.ben h3{font-family:var(--body);font-size:1.05rem;font-weight:700;letter-spacing:0;display:flex;gap:10px;align-items:center;margin-bottom:8px;color:var(--texto)}
+.ben h3 svg{color:var(--oxford);flex:none}
+.ben p{color:var(--texto-2)}
+
+/* Para quién */
+.quien{border-top:1px solid var(--linea)}
+.quien-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--linea);border-radius:var(--radio-l);overflow:hidden}
+.quien-item{padding:36px 32px;border-right:1px solid var(--linea)}
+.quien-item:last-child{border-right:0}
+.quien-item h3{font-size:1.4rem;margin-bottom:10px}
+.quien-item p{color:var(--texto-2)}
+
+/* CTA */
+.cta{padding:0 0 110px}
+.cta-caja{background:var(--tinta);color:#fff;border-radius:32px;padding:72px 56px;position:relative;overflow:hidden;display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:center}
+.cta-caja::before{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(42,100,168,.6),transparent 70%)}
+.cta-caja h2{font-size:clamp(2rem,4vw,3rem);font-weight:800;margin-bottom:14px;position:relative}
+.cta-caja p{color:rgba(255,255,255,.75);font-size:1.1rem;position:relative}
+.contacto{position:relative;display:grid;gap:12px}
+.contacto a.btn{justify-content:center}
+.contacto small{color:rgba(255,255,255,.6);text-align:center}
+
+/* Footer */
+footer{border-top:1px solid var(--linea);padding:48px 0 32px;font-size:.92rem}
+.pie-grid{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-bottom:36px}
+.pie-grid .marca{color:var(--texto)}
+.pie-grid p{color:var(--texto-2);margin-top:10px;max-width:30ch}
+.pie-cols{display:flex;gap:64px}
+.pie-cols h4{font-size:.9rem;margin-bottom:12px}
+.pie-cols a{display:block;color:var(--texto-2);text-decoration:none;margin-bottom:8px}
+.pie-cols a:hover{color:var(--oxford)}
+.legal{border-top:1px solid var(--linea);padding-top:20px;color:var(--texto-2);font-size:.85rem}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:980px){
+  .hero .wrap,.pasos-grid,.prod-grid,.cta-caja{grid-template-columns:1fr}
+  .hero{padding-top:64px}
+  .hero-visual{max-width:520px;margin:0 auto;width:100%}
+  .ben-grid{grid-template-columns:repeat(2,1fr)}
+  .quien-grid{grid-template-columns:1fr}
+  .quien-item{border-right:0;border-bottom:1px solid var(--linea)}
+  .quien-item:last-child{border-bottom:0}
+}
+@media (max-width:720px){
+  .nav ul,.nav .btn{display:none}
+  .menu-toggle{display:block}
+  .nav.abierto ul{display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:var(--tinta);padding:12px 20px 20px}
+  section.bloque{padding:76px 0}
+  .ben-grid{grid-template-columns:1fr;gap:32px}
+  .prod{padding:30px 24px}
+  .cta-caja{padding:48px 26px;border-radius:24px}
+  .f1{left:-6px}.f2{right:-4px}
+  .fila{grid-template-columns:1fr 54px 54px 54px}
+  .pie-cols{gap:36px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="#" class="marca" aria-label="Libreta Virtual, inicio">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="3" width="22" height="26" rx="4" fill="#1d4e89"/><rect x="8" y="3" width="2" height="26" fill="#9cc2ee"/><path d="M14 11h8M14 16h8M14 21h5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+      Libreta Virtual
+    </a>
+    <ul>
+      <li><a href="#como-funciona">Cómo funciona</a></li>
+      <li><a href="#productos">Productos</a></li>
+      <li><a href="#beneficios">Beneficios</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <a href="#contacto" class="btn btn-claro btn-chico">Pedir una demo</a>
+    <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false" id="menuBtn">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <a href="#productos" class="aviso"><b>Nuevo</b> Sistema de Horarios, en etapa de pruebas</a>
+      <h1>La libreta de tu colegio, sin papeles ni planillas sueltas</h1>
+      <p class="bajada">Notas, asistencia, convivencia y seguimiento de cada alumno en un solo sistema. Las familias la consultan desde el celular, con su DNI.</p>
+      <div class="acciones">
+        <a href="#contacto" class="btn btn-claro">Pedir una demo</a>
+        <a href="#como-funciona" class="btn btn-borde">Ver cómo funciona</a>
+      </div>
+    </div>
+
+    <div class="hero-visual" aria-label="Ejemplo de libreta digital">
+      <div class="libreta">
+        <div class="libreta-top">
+          <div><small>Boletín ciclo 2026</small><strong>Martina López, 2° año B</strong></div>
+          <span class="sello">Publicado</span>
+        </div>
+        <table>
+          <thead><tr><th>Materia</th><th>1° trim.</th><th>2° trim.</th><th>3° trim.</th></tr></thead>
+          <tbody>
+            <tr><td>Lengua</td><td><span class="nota-mano">8</span></td><td><span class="nota-mano">9</span></td><td>–</td></tr>
+            <tr><td>Matemática</td><td><span class="nota-roja">5</span></td><td><span class="nota-mano">7</span></td><td>–</td></tr>
+            <tr><td>Historia</td><td><span class="nota-mano">9</span></td><td><span class="nota-mano">8</span></td><td>–</td></tr>
+            <tr><td>Biología</td><td><span class="nota-mano">7</span></td><td><span class="nota-mano">8</span></td><td>–</td></tr>
+          </tbody>
+        </table>
+        <div class="libreta-pie">
+          <span class="dato">4 inasistencias, 3 justificadas</span>
+          <span class="dato">Convivencia sin observaciones</span>
+        </div>
+      </div>
+      <div class="flotante f2">
+        <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1d4e89" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div>
+        <div><b>Código enviado</b>al mail de la familia</div>
+      </div>
+      <div class="flotante f1">
+        <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1d4e89" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+        <div><b>Acceso verificado</b><span class="codigo">4 8 2 1</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="franja">
+    <p>Pensado desde el primer día para el sistema educativo argentino</p>
+    <div class="mascara">
+      <div class="cinta" aria-hidden="true">
+        <span>Nivel inicial</span><span><i>/</i></span><span>Primario</span><span><i>/</i></span><span>Secundario</span><span><i>/</i></span><span>Trimestres y recuperatorios</span><span><i>/</i></span><span>Acuerdo de Convivencia</span><span><i>/</i></span><span>Observaciones de tutores</span><span><i>/</i></span><span>Historial por ciclo lectivo</span><span><i>/</i></span>
+        <span>Nivel inicial</span><span><i>/</i></span><span>Primario</span><span><i>/</i></span><span>Secundario</span><span><i>/</i></span><span>Trimestres y recuperatorios</span><span><i>/</i></span><span>Acuerdo de Convivencia</span><span><i>/</i></span><span>Observaciones de tutores</span><span><i>/</i></span><span>Historial por ciclo lectivo</span><span><i>/</i></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ CÓMO FUNCIONA ============ -->
+<section class="bloque" id="como-funciona">
+  <div class="wrap">
+    <div class="cabeza">
+      <h2>Del Excel compartido a un sistema con control</h2>
+      <p>Cada persona ve y carga solo lo que le corresponde. Nada se pisa y nada se pierde.</p>
+    </div>
+    <div class="pasos-grid">
+      <ol class="pasos" id="pasos">
+        <li class="paso activo">
+          <button data-panel="p1" aria-expanded="true">
+            <span class="tit"><span class="num">1</span>El docente carga las notas</span>
+            <p>Cada docente ve solo sus cursos y materias. Carga notas por trimestre, inasistencias y evaluaciones desde el panel.</p>
+          </button>
+        </li>
+        <li class="paso">
+          <button data-panel="p2" aria-expanded="false">
+            <span class="tit"><span class="num">2</span>La familia consulta la libreta</span>
+            <p>Ingresan el DNI del alumno y reciben un código por mail. Sin usuarios ni contraseñas que recordar.</p>
+          </button>
+        </li>
+        <li class="paso">
+          <button data-panel="p3" aria-expanded="false">
+            <span class="tit"><span class="num">3</span>Dirección hace el seguimiento</span>
+            <p>Convivencia, evaluación social y observaciones de tutores quedan registradas en el legajo de cada alumno, año tras año.</p>
+          </button>
+        </li>
+      </ol>
+
+      <div class="vista">
+        <div class="panel visible" id="p1">
+          <div class="panel-barra">Matemática, 2° año B <span>Prof. Gómez</span></div>
+          <div class="panel-cuerpo">
+            <div class="fila enc"><span>Alumno</span><span style="text-align:center">1° T</span><span style="text-align:center">2° T</span><span style="text-align:center">3° T</span></div>
+            <div class="fila"><span>Acosta, Tomás</span><span class="celda">8</span><span class="celda">7</span><span class="celda">–</span></div>
+            <div class="fila"><span>López, Martina</span><span class="celda">5</span><span class="celda editando">7</span><span class="celda">–</span></div>
+            <div class="fila"><span>Paz, Valentina</span><span class="celda">9</span><span class="celda">9</span><span class="celda">–</span></div>
+            <div class="fila"><span>Ruiz, Lautaro</span><span class="celda">6</span><span class="celda">8</span><span class="celda">–</span></div>
+            <p class="guardado">Cambios guardados</p>
+          </div>
+        </div>
+        <div class="panel" id="p2">
+          <div class="panel-barra">Consulta de libreta <span>Acceso para familias</span></div>
+          <div class="panel-cuerpo">
+            <div class="consulta">
+              <h4>Consultá la libreta</h4>
+              <p>Te enviamos un código al mail registrado en el colegio.</p>
+              <div class="campo">DNI del alumno <b>&nbsp;45.123.678</b></div>
+              <div class="digitos"><span>4</span><span>8</span><span>2</span><span>1</span></div>
+              <span class="btn btn-marca" style="width:100%;justify-content:center">Ver libreta</span>
+            </div>
+          </div>
+        </div>
+        <div class="panel" id="p3">
+          <div class="panel-barra">Legajo de López, Martina <span>Ciclo 2026</span></div>
+          <div class="panel-cuerpo">
+            <div class="evento"><span class="punto" style="background:#2e7d4f"></span><div>Evaluación social del 2° trimestre completada<small>Tutora: Lic. Fernández, 12 de agosto</small></div></div>
+            <div class="evento"><span class="punto" style="background:#1d4e89"></span><div>Observación de tutor: mejora en la participación<small>Cargada por Prof. Gómez, 4 de agosto</small></div></div>
+            <div class="evento"><span class="punto" style="background:#c8453c"></span><div>Acuerdo de Convivencia: llamado de atención<small>Ítem: uso del celular en clase, 21 de junio</small></div></div>
+            <div class="evento"><span class="punto" style="background:#9aa6b8"></span><div>Libreta del 1° trimestre publicada para la familia<small>Dirección, 30 de mayo</small></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRODUCTOS ============ -->
+<section class="bloque productos" id="productos">
+  <div class="wrap">
+    <div class="cabeza">
+      <h2>Dos sistemas que trabajan juntos</h2>
+      <p>Empezá con la libreta y sumá los horarios cuando lo necesites. Comparten los mismos cursos, docentes y materias.</p>
+    </div>
+    <div class="prod-grid">
+      <article class="prod principal">
+        <span class="estado">Disponible</span>
+        <h3>Libreta Virtual</h3>
+        <p>La libreta completa del alumno: lo académico, lo convivencial y lo social, con acceso seguro para las familias.</p>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Notas por trimestre y recuperatorios</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Asistencia con inasistencias justificadas</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Acuerdo de Convivencia con catálogo propio</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Evaluación social y observaciones de tutores</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Dirección decide cuándo se publica cada libreta</li>
+        </ul>
+        <a href="#contacto" class="btn btn-claro">Pedir una demo</a>
+      </article>
+      <article class="prod">
+        <span class="estado">En etapa de pruebas</span>
+        <h3>Sistema de Horarios</h3>
+        <p>Armá la grilla horaria del colegio en minutos, respetando la disponibilidad de cada docente.</p>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1d4e89" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Generación automática de horarios</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1d4e89" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Gestión de docentes y disponibilidad</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1d4e89" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Sin superposiciones de aulas ni profesores</li>
+        </ul>
+        <a href="#contacto" class="btn btn-marca">Quiero probarlo</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BENEFICIOS ============ -->
+<section class="bloque" id="beneficios">
+  <div class="wrap">
+    <div class="cabeza">
+      <h2>Lo que un colegio necesita que no falle</h2>
+    </div>
+    <div class="ben-grid">
+      <div class="ben">
+        <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/></svg>Los datos nunca se borran</h3>
+        <p>Cursos, materias y alumnos se dan de baja, no se eliminan. El historial queda intacto para auditorías y legajos.</p>
+      </div>
+      <div class="ben">
+        <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c1.9.8 3.1 2.6 3.5 5.2"/></svg>Roles y permisos claros</h3>
+        <p>Administración, docentes y familias ven cosas distintas. Un docente solo carga notas en sus propias materias.</p>
+      </div>
+      <div class="ben">
+        <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Acceso seguro para familias</h3>
+        <p>DNI y código de verificación por mail, con protección contra intentos repetidos. Simple para las familias.</p>
+      </div>
+      <div class="ben">
+        <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Historial por ciclo lectivo</h3>
+        <p>Cada año queda guardado. Podés consultar la trayectoria completa de un alumno desde que ingresó.</p>
+      </div>
+      <div class="ben">
+        <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5M4 19h16M8 15l4-4 3 3 5-6"/></svg>Seguimiento integral</h3>
+        <p>No solo notas: convivencia, evaluación social y observaciones de tutores, todo en el mismo legajo.</p>
+      </div>
+      <div class="ben">
+        <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Soporte cercano</h3>
+        <p>Un equipo de Tucumán que conoce cómo funciona un colegio argentino y responde en tu idioma y tu horario.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PARA QUIÉN ============ -->
+<section class="bloque quien">
+  <div class="wrap">
+    <div class="cabeza">
+      <h2>Para quién es</h2>
+    </div>
+    <div class="quien-grid">
+      <div class="quien-item">
+        <h3>Colegios</h3>
+        <p>Instituciones chicas y medianas que hoy manejan notas y asistencia con planillas o sistemas viejos.</p>
+      </div>
+      <div class="quien-item">
+        <h3>Redes de colegios</h3>
+        <p>Grupos que administran varias instituciones y necesitan la misma herramienta en todas.</p>
+      </div>
+      <div class="quien-item">
+        <h3>Organismos educativos</h3>
+        <p>Programas provinciales o nacionales que buscan una solución pensada para nuestro sistema educativo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA / CONTACTO ============ -->
+<section class="cta" id="contacto">
+  <div class="wrap">
+    <div class="cta-caja">
+      <div>
+        <h2>Veámoslo funcionando en tu colegio</h2>
+        <p>En una demo de 30 minutos te mostramos el sistema con datos de ejemplo y resolvemos tus dudas.</p>
+      </div>
+      <div class="contacto">
+        <!-- Reemplazá el mail y el número de WhatsApp -->
+        <a class="btn btn-claro" href="mailto:contacto@tudominio.com?subject=Quiero%20una%20demo%20de%20Libreta%20Virtual">Pedir una demo por mail</a>
+        <a class="btn btn-borde" href="https://wa.me/5493810000000?text=Hola%2C%20quiero%20una%20demo%20de%20Libreta%20Virtual" target="_blank" rel="noopener">Escribirnos por WhatsApp</a>
+        <small>Respondemos dentro de las 24 horas hábiles</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="pie-grid">
+      <div>
+        <a href="#" class="marca">
+          <svg viewBox="0 0 32 32" aria-hidden="true" width="28" height="28"><rect x="4" y="3" width="22" height="26" rx="4" fill="#1d4e89"/><rect x="8" y="3" width="2" height="26" fill="#9cc2ee"/><path d="M14 11h8M14 16h8M14 21h5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+          Libreta Virtual
+        </a>
+        <p>Gestión escolar hecha en Tucumán, Argentina.</p>
+      </div>
+      <div class="pie-cols">
+        <div>
+          <h4>Productos</h4>
+          <a href="#productos">Libreta Virtual</a>
+          <a href="#productos">Sistema de Horarios</a>
+        </div>
+        <div>
+          <h4>Colegio</h4>
+          <a href="#como-funciona">Cómo funciona</a>
+          <a href="#beneficios">Beneficios</a>
+          <a href="#contacto">Contacto</a>
+        </div>
+      </div>
+    </div>
+    <p class="legal">© 2026 Libreta Virtual. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+<script>
+  // Pasos de "Cómo funciona"
+  const botones = document.querySelectorAll('#pasos button');
+  botones.forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.paso').forEach(p => p.classList.remove('activo'));
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('visible'));
+      botones.forEach(b => b.setAttribute('aria-expanded', 'false'));
+      btn.closest('.paso').classList.add('activo');
+      btn.setAttribute('aria-expanded', 'true');
+      document.getElementById(btn.dataset.panel).classList.add('visible');
+    });
+  });
+  // Menú mobile
+  const nav = document.getElementById('nav');
+  const menuBtn = document.getElementById('menuBtn');
+  menuBtn.addEventListener('click', () => {
+    const abierto = nav.classList.toggle('abierto');
+    menuBtn.setAttribute('aria-expanded', abierto);
+  });
+  nav.querySelectorAll('ul a').forEach(a => a.addEventListener('click', () => {
+    nav.classList.remove('abierto'); menuBtn.setAttribute('aria-expanded', 'false');
+  }));
+</script>
+</body>
+</html>
