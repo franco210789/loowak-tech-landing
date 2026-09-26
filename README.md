@@ -1,6 +1,6 @@
-# Libreta Virtual · Landing
+# LOOWAK-TECH · Landing
 
-Página de presentación de **Libreta Virtual** y el **Sistema de Horarios**.
+Página de presentación de **LOOWAK-TECH**, con sus dos productos: **Libreta Virtual** y el **Sistema de Horarios**.
 
 Es un sitio estático: un solo `index.html` con el CSS y el JS incluidos. No necesita build ni dependencias.
 
