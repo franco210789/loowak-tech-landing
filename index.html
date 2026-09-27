@@ -16,10 +16,11 @@
   --oxford-2:#2a64a8;
   --cielo:#9cc2ee;      /* acento claro */
   --tiza:#f4f6f9;       /* fondo de secciones claras */
-  --papel:#ffffff;
+  --papel:#eef1f6;     /* gris azulado, fondo general del sitio */
   --texto:#1b2433;
   --texto-2:#56627a;
   --linea:#dfe5ee;
+  --pie:#4b5468;        /* gris azulado tibio del footer, combina con --tinta */
   --birome:#c8453c;     /* rojo de corrección, usar poco */
   --radio-l:22px; --radio-m:14px; --radio-s:8px;
   --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
@@ -183,15 +184,15 @@ section.bloque{padding:110px 0}
 .contacto small{color:rgba(255,255,255,.6);text-align:center}
 
 /* Footer */
-footer{background:var(--tiza);border-top:1px solid var(--linea);padding:48px 0 32px;font-size:.92rem}
+footer{background:var(--pie);color:rgba(255,255,255,.7);border-top:1px solid rgba(255,255,255,.08);padding:48px 0 32px;font-size:.92rem}
 .pie-grid{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-bottom:36px}
-.pie-grid .marca{color:var(--texto)}
-.pie-grid p{color:var(--texto-2);margin-top:10px;max-width:30ch}
+.pie-grid .marca{color:#fff}
+.pie-grid p{color:rgba(255,255,255,.65);margin-top:10px;max-width:30ch}
 .pie-cols{display:flex;gap:64px}
-.pie-cols h4{font-size:.9rem;margin-bottom:12px}
-.pie-cols a{display:block;color:var(--texto-2);text-decoration:none;margin-bottom:8px}
-.pie-cols a:hover{color:var(--oxford)}
-.legal{border-top:1px solid var(--linea);padding-top:20px;color:var(--texto-2);font-size:.85rem}
+.pie-cols h4{font-size:.9rem;margin-bottom:12px;color:#fff}
+.pie-cols a{display:block;color:rgba(255,255,255,.65);text-decoration:none;margin-bottom:8px}
+.pie-cols a:hover{color:var(--cielo)}
+.legal{border-top:1px solid rgba(255,255,255,.12);padding-top:20px;color:rgba(255,255,255,.55);font-size:.85rem}
 
 /* ============ RESPONSIVE ============ */
 @media (max-width:980px){
