@@ -262,6 +262,13 @@ footer{background:var(--pie);color:rgba(255,255,255,.7);border-top:1px solid rgb
 .miembro li{background:rgba(255,255,255,.1);color:rgba(255,255,255,.9)}
 .miembro p{color:rgba(255,255,255,.7)}
 .miembro .rol{color:#9cc2ee}
+
+/* Opciones del botón de mail: mailto solo no alcanza si la PC no tiene programa de correo */
+.mail-opciones{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:-4px}
+.mail-opciones[hidden]{display:none}
+.mail-opciones a,.mail-opciones button{all:unset;box-sizing:border-box;text-align:center;cursor:pointer;font-family:var(--body);font-weight:700;font-size:.88rem;color:#fff;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:11px 10px}
+.mail-opciones a:hover,.mail-opciones button:hover{background:rgba(255,255,255,.18)}
+.mail-opciones a:focus-visible,.mail-opciones button:focus-visible{outline:3px solid var(--cielo);outline-offset:2px}
 </style>
 </head>
 <body>
@@ -570,7 +577,13 @@ footer{background:var(--pie);color:rgba(255,255,255,.7);border-top:1px solid rgb
         <p>Te mostramos el sistema funcionando y vemos juntos cómo adaptarlo a la forma de trabajar de tu colegio.</p>
       </div>
       <div class="contacto">
-        <a class="btn btn-claro" href="mailto:contacto@loowaktech.com.ar?subject=Consulta%20por%20Libreta%20Virtual">Escribirnos por mail</a>
+        <a class="btn btn-claro" id="btnMail" href="mailto:contacto@loowaktech.com.ar?subject=Consulta%20por%20Libreta%20Virtual" aria-expanded="false" aria-controls="mailOpciones">Escribirnos por mail</a>
+        <div class="mail-opciones" id="mailOpciones" hidden>
+          <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=contacto@loowaktech.com.ar&amp;su=Consulta%20por%20Libreta%20Virtual" target="_blank" rel="noopener">Abrir en Gmail</a>
+          <a href="https://outlook.live.com/mail/0/deeplink/compose?to=contacto@loowaktech.com.ar&amp;subject=Consulta%20por%20Libreta%20Virtual" target="_blank" rel="noopener">Abrir en Outlook</a>
+          <a href="mailto:contacto@loowaktech.com.ar?subject=Consulta%20por%20Libreta%20Virtual">App de correo</a>
+          <button type="button" id="copiarMail">Copiar dirección</button>
+        </div>
         <a class="btn btn-borde" href="https://wa.me/5493815289907?text=Hola%2C%20quiero%20saber%20m%C3%A1s%20sobre%20Libreta%20Virtual" target="_blank" rel="noopener">Escribirnos por WhatsApp</a>
         <small style="line-height:1.7">contacto@loowaktech.com.ar<br>WhatsApp Franco: <a class="tel-wa" href="https://wa.me/5493815289907" target="_blank" rel="noopener" style="white-space:nowrap">+54 9 381 528-9907</a><br>WhatsApp Sebastian: <a class="tel-wa" href="https://wa.me/5493815456923" target="_blank" rel="noopener" style="white-space:nowrap">+54 9 381 545-6923</a></small>
       </div>
@@ -635,6 +648,24 @@ footer{background:var(--pie);color:rgba(255,255,255,.7);border-top:1px solid rgb
   nav.querySelectorAll('ul a').forEach(a => a.addEventListener('click', () => {
     nav.classList.remove('abierto'); menuBtn.setAttribute('aria-expanded', 'false');
   }));
+</script>
+<script>
+(function(){
+  var btn=document.getElementById('btnMail'), op=document.getElementById('mailOpciones'), cp=document.getElementById('copiarMail');
+  if(!btn||!op) return;
+  btn.addEventListener('click',function(e){
+    e.preventDefault();
+    var abrir=op.hasAttribute('hidden');
+    if(abrir){op.removeAttribute('hidden');}else{op.setAttribute('hidden','');}
+    btn.setAttribute('aria-expanded',abrir?'true':'false');
+  });
+  cp.addEventListener('click',function(){
+    var mail='contacto@loowaktech.com.ar';
+    function ok(){cp.textContent='¡Copiado!';setTimeout(function(){cp.textContent='Copiar dirección';},2000);}
+    if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(mail).then(ok,function(){prompt('Copiá la dirección:',mail);});}
+    else{prompt('Copiá la dirección:',mail);}
+  });
+})();
 </script>
 </body>
 </html>
