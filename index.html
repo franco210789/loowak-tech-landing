@@ -175,7 +175,7 @@ section.bloque{padding:110px 0}
 .quien-item p{color:var(--texto-2)}
 
 /* CTA */
-.cta{padding:0 0 110px}
+.cta{padding:0 0 56px}
 .cta-caja{background:var(--tinta);color:#fff;border-radius:32px;padding:72px 56px;position:relative;overflow:hidden;display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:center}
 .cta-caja::before{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(42,100,168,.6),transparent 70%)}
 .cta-caja h2{font-size:clamp(2rem,4vw,3rem);font-weight:800;margin-bottom:14px;position:relative}
@@ -235,6 +235,13 @@ footer{background:var(--pie);color:rgba(255,255,255,.7);border-top:1px solid rgb
 .miembro li{background:var(--tiza);border-radius:999px;padding:6px 14px;font-size:.88rem;color:var(--texto)}
 .miembro p{color:var(--texto-2);font-size:.95rem}
 @media (max-width:720px){.equipo-grid{grid-template-columns:1fr}}
+/* Desarrollo a medida: franja discreta antes del pie */
+.medida{padding:0 0 100px}
+.medida-caja{display:flex;align-items:center;justify-content:space-between;gap:24px 40px;border:1px solid var(--linea);background:#fff;border-radius:var(--radio-l);padding:28px 36px}
+.medida-caja h2{font-family:var(--display);font-size:1.3rem;font-weight:700;color:var(--texto);margin:0 0 6px}
+.medida-caja p{color:var(--texto-2);margin:0;max-width:620px}
+.medida-caja .btn{flex-shrink:0}
+@media (max-width:720px){.medida-caja{flex-direction:column;align-items:flex-start;padding:24px}}
 
 .logo-empresa{width:150px;height:150px;border-radius:28px;display:block;margin:0 auto 22px;box-shadow:0 10px 30px rgba(19,35,61,.25)}
 .pie-empresa{display:flex;align-items:center;gap:12px;margin-top:16px;color:var(--texto-2)}
@@ -596,6 +603,19 @@ footer{background:var(--pie);color:rgba(255,255,255,.7);border-top:1px solid rgb
 </section>
 
 <!-- ============ FOOTER ============ -->
+<!-- ============ DESARROLLO A MEDIDA ============ -->
+<section class="medida" id="a-medida">
+  <div class="wrap">
+    <div class="medida-caja">
+      <div>
+        <h2>¿Necesitás algo distinto para tu institución o empresa?</h2>
+        <p>También desarrollamos sistemas y páginas web a medida: herramientas de gestión, automatizaciones y sitios para presentar tu proyecto.</p>
+      </div>
+      <a class="btn btn-marca" href="https://wa.me/5493815289907?text=Hola%2C%20quiero%20consultar%20por%20un%20desarrollo%20a%20medida" target="_blank" rel="noopener">Contanos tu idea</a>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
     <div class="pie-grid">
