@@ -306,6 +306,37 @@ footer .marca{margin-bottom:14px}
 .mail-opciones a,.mail-opciones button{all:unset;box-sizing:border-box;text-align:center;cursor:pointer;font-family:var(--body);font-weight:700;font-size:.88rem;color:#fff;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:11px 10px}
 .mail-opciones a:hover,.mail-opciones button:hover{background:rgba(255,255,255,.18)}
 .mail-opciones a:focus-visible,.mail-opciones button:focus-visible{outline:3px solid var(--cielo);outline-offset:2px}
+
+/* ============ SISTEMA DE HORARIOS ============ */
+.horarios-sec{background:var(--tinta);color:#fff;position:relative;overflow:hidden}
+.horarios-sec::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 500px at 100% 0%,rgba(42,100,168,.45),transparent 70%);pointer-events:none}
+.horarios-sec .wrap{position:relative}
+.horarios-sec .cabeza p{color:rgba(255,255,255,.75)}
+.etq{display:inline-block;background:var(--cielo);color:var(--tinta);font-weight:700;font-size:.8rem;border-radius:30px;padding:4px 12px;margin-bottom:14px;letter-spacing:.02em}
+.hor-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:56px;align-items:center}
+.hor-pasos{list-style:none;display:grid;gap:22px}
+.hor-pasos li{display:flex;gap:16px}
+.hor-pasos .n{flex:none;width:36px;height:36px;border-radius:50%;background:var(--cielo);color:var(--tinta);font-weight:800;display:flex;align-items:center;justify-content:center;font-family:var(--display)}
+.hor-pasos b{display:block;font-size:1.08rem;margin-bottom:2px}
+.hor-pasos span{color:rgba(255,255,255,.72)}
+.hor-chips{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0}
+.hor-chips span{border:1px solid rgba(255,255,255,.2);border-radius:30px;padding:6px 14px;font-size:.85rem;color:rgba(255,255,255,.85)}
+.grilla{background:#fdfdfb;color:var(--texto);border-radius:var(--radio-l);padding:22px;box-shadow:0 30px 80px rgba(0,0,0,.35);position:relative}
+.grilla-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px}
+.grilla-top b{font-family:var(--display);font-size:1.15rem}
+.grilla-top small{color:var(--texto-2);font-size:.8rem}
+.grilla table{width:100%;border-collapse:separate;border-spacing:4px;table-layout:fixed}
+.grilla th{font-size:.72rem;color:var(--texto-2);font-weight:600;padding:2px}
+.grilla th.h{text-align:left;width:46px}
+.grilla td{border-radius:8px;font-size:.7rem;font-weight:700;text-align:center;padding:9px 2px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.grilla td.hora{background:none;color:var(--texto-2);font-weight:600;text-align:left;padding-left:0}
+.grilla tr.recreo td{background:var(--tiza);color:var(--texto-2);font-weight:600;padding:4px;font-size:.66rem;letter-spacing:.08em}
+.m1{background:#dbe8f8;color:#1d4e89}.m2{background:#fde3d4;color:#a4461a}.m3{background:#dff3e6;color:#1f7a45}
+.m4{background:#efe3fa;color:#6a3a9a}.m5{background:#fff1c9;color:#8a6200}.m6{background:#fbe0e3;color:#a8323f}
+.grilla .ok{position:absolute;right:-14px;bottom:-18px;background:#fff;border-radius:var(--radio-m);box-shadow:0 18px 40px rgba(0,0,0,.28);padding:12px 16px;font-size:.85rem;display:flex;gap:10px;align-items:center}
+.grilla .ok i{width:28px;height:28px;border-radius:50%;background:#3fae6e;display:flex;align-items:center;justify-content:center;flex:none}
+@media (max-width:980px){.hor-grid{grid-template-columns:1fr;gap:40px}.grilla .ok{right:8px}}
+@media (max-width:420px){.grilla{padding:14px}.grilla td{font-size:.6rem;padding:7px 1px}.grilla th.h{width:34px}}
 </style>
 </head>
 <body>
@@ -319,7 +350,7 @@ footer .marca{margin-bottom:14px}
     </a>
     <ul>
       <li><a href="#como-funciona">Cómo funciona</a></li>
-      <li><a href="#importar">Importación</a></li>
+      <li><a href="#horarios">Horarios</a></li>
       <li><a href="#productos">Productos</a></li>
       <li><a href="#beneficios">Beneficios</a></li>
       <li><a href="#quienes-somos">Quiénes somos</a></li>
@@ -337,7 +368,7 @@ footer .marca{margin-bottom:14px}
 <header class="hero">
   <div class="wrap">
     <div>
-      <a href="#productos" class="aviso"><b>Nuevo</b> Secretaría digital y nota final automática</a>
+      <a href="#horarios" class="aviso"><b>Nuevo</b> Horarios automáticos, sin superposiciones</a>
       <h1>La gestión de tu colegio, sin papeles ni planillas sueltas</h1>
       <p class="bajada">Notas, asistencia, convivencia, secretaría y horarios en un solo sistema. Las familias consultan la libreta desde el celular, con el DNI del alumno y una clave.</p>
       <div class="acciones">
@@ -456,6 +487,40 @@ footer .marca{margin-bottom:14px}
 </section>
 
 <!-- ============ IMPORTACIÓN ============ -->
+<!-- ============ SISTEMA DE HORARIOS ============ -->
+<section class="bloque horarios-sec" id="horarios">
+  <div class="wrap">
+    <div class="cabeza">
+      <span class="etq">Sistema de Horarios</span>
+      <h2>El horario del colegio, armado solo</h2>
+      <p>Armar el horario a mano lleva días de prueba y error, y siempre aparece un choque: un docente en dos cursos a la vez, o una materia amontonada en un solo día. El sistema lo genera respetando las reglas de tu colegio.</p>
+    </div>
+    <div class="hor-grid">
+      <div>
+        <ol class="hor-pasos">
+          <li><div class="n">1</div><div><b>Cargás docentes, materias y cursos</b><span>Con la disponibilidad de cada docente y los turnos del colegio.</span></div></li>
+          <li><div class="n">2</div><div><b>El sistema arma el horario</b><span>Sin docentes en dos cursos a la vez, con las materias repartidas en la semana y la carga pareja para cada docente.</span></div></li>
+          <li><div class="n">3</div><div><b>Revisás y exportás</b><span>El horario de cada curso y de cada docente, listo para imprimir o compartir.</span></div></li>
+        </ol>
+        <div class="hor-chips"><span>Turnos mañana, tarde y noche</span><span>Recreos configurables</span><span>Disponibilidad docente</span><span>Exportación por curso y por docente</span></div>
+        <a class="btn btn-claro" href="https://wa.me/5493815289907?text=Hola%2C%20quiero%20saber%20m%C3%A1s%20sobre%20el%20Sistema%20de%20Horarios" target="_blank" rel="noopener">Quiero ver el Sistema de Horarios</a>
+      </div>
+      <figure class="grilla" aria-label="Ejemplo de horario generado para un curso">
+        <div class="grilla-top"><b>3° A · Turno mañana</b><small>Horario generado</small></div>
+        <table>
+          <tr><th class="h"></th><th>Lun</th><th>Mar</th><th>Mié</th><th>Jue</th><th>Vie</th></tr>
+<tr><td class="hora">7:30</td><td class="m1">Matem.</td><td class="m2">Lengua</td><td class="m1">Matem.</td><td class="m3">Biología</td><td class="m2">Lengua</td></tr>
+<tr><td class="hora">8:10</td><td class="m1">Matem.</td><td class="m4">Historia</td><td class="m5">Inglés</td><td class="m3">Biología</td><td class="m4">Historia</td></tr>
+<tr class="recreo"><td colspan="6">RECREO</td></tr>
+<tr><td class="hora">9:00</td><td class="m2">Lengua</td><td class="m6">Ed. Fís.</td><td class="m4">Historia</td><td class="m1">Matem.</td><td class="m5">Inglés</td></tr>
+<tr><td class="hora">9:40</td><td class="m3">Biología</td><td class="m6">Ed. Fís.</td><td class="m2">Lengua</td><td class="m5">Inglés</td><td class="m1">Matem.</td></tr>
+        </table>
+        <div class="ok"><i><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg></i><div><b>0 superposiciones</b><br><span style="color:var(--texto-2)">docentes y cursos</span></div></div>
+      </figure>
+    </div>
+  </div>
+</section>
+
 <section class="bloque productos" id="importar">
   <div class="wrap">
     <div class="cabeza">
@@ -478,7 +543,7 @@ footer .marca{margin-bottom:14px}
   <div class="wrap">
     <div class="cabeza">
       <h2>Dos sistemas que trabajan juntos</h2>
-      <p>Empezá con la libreta y sumá los horarios cuando lo necesites. Comparten los mismos cursos, docentes y materias.</p>
+      <p>Podés empezar por cualquiera de los dos y sumar el otro cuando lo necesites.</p>
     </div>
     <div class="prod-grid">
       <article class="prod principal">
@@ -514,7 +579,7 @@ footer .marca{margin-bottom:14px}
           <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1d4e89" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Materias repartidas en la semana y carga pareja para cada docente</li>
           <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1d4e89" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Horario por curso y por docente, listo para exportar</li>
         </ul>
-        <a href="#contacto" class="btn btn-marca">Consultar</a>
+        <a href="#horarios" class="btn btn-marca">Ver cómo funciona</a>
       </article>
     </div>
   </div>
