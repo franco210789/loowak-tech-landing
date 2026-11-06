@@ -161,7 +161,8 @@ section.bloque{padding:110px 0}
 
 /* Productos */
 .productos{background:var(--tiza)}
-.prod-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:24px}
+.prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.prod-mas{font-size:.92rem;opacity:.75;margin:-14px 0 28px;max-width:46ch}
 .prod{background:#fff;border:1px solid var(--linea);border-radius:var(--radio-l);padding:40px;display:flex;flex-direction:column}
 .prod.principal{background:var(--oxford);color:#fff;border-color:var(--oxford)}
 .prod h3{font-size:2rem;font-weight:800;margin-bottom:12px}
@@ -559,34 +560,31 @@ footer .marca{margin-bottom:14px}
         <p>La libreta completa del alumno y la gestión diaria del colegio: lo académico, lo convivencial, lo social y la secretaría, con acceso seguro para las familias.</p>
         <ul>
           <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Libreta online para la familia, desde cualquier dispositivo</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Notas por trimestre con nota final automática</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Recuperatorios de diciembre y febrero/marzo</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Notas por trimestre con nota final automática y recuperatorios</li>
           <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Asistencia, Acuerdo de Convivencia y desempeño social</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Estado académico y observaciones de tutores por alumno</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Dirección decide qué trimestres ve cada familia</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Planilla general de notas por curso, lista para imprimir</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Secretaría: listados de alumnos, documentos y planificaciones docentes</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Datos de contacto de padre, madre o tutor</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Importación desde Excel y pase de año automático</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Gráficos y estadísticas de aprobados por curso, ciclo, área y sexo</li>
           <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Señales tempranas desde marzo: observaciones, convivencia y notas por área</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Nombre y logo del colegio en listados y planillas impresas</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Gráficos y estadísticas por curso, ciclo, área y sexo</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Secretaría digital: listados, documentos y planificaciones</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Importación desde Excel y pase de año automático</li>
         </ul>
-        <a href="#contacto" class="btn btn-claro">Consultar</a>
+        <p class="prod-mas">Y más: planilla general de notas, datos de la familia, qué trimestres ve cada familia, y el nombre y logo del colegio en las impresiones.</p>
+        <a href="#como-funciona" class="btn btn-claro">Ver cómo funciona</a>
       </article>
-      <article class="prod">
+      <article class="prod principal">
         <span class="estado">Disponible</span>
         <h3>Sistema de Horarios</h3>
-        <p>Armá la grilla horaria del colegio en minutos, respetando la disponibilidad de cada docente.</p>
+        <p>El horario del colegio armado solo, respetando la disponibilidad de cada docente y sin choques entre cursos.</p>
         <ul>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1d4e89" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Generación automática de horarios</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1d4e89" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Gestión de docentes y disponibilidad</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1d4e89" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Sin superposiciones de aulas ni profesores</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1d4e89" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Turnos mañana, tarde y noche, con recreos configurables</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1d4e89" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Materias repartidas en la semana y carga pareja para cada docente</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1d4e89" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Horario por curso y por docente, listo para exportar</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Generación automática de horarios</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Importación desde Excel o PDF</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Gestión de docentes y disponibilidad</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Sin superposiciones de aulas ni profesores</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Turnos mañana, tarde y noche, con recreos configurables</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Materias repartidas en la semana y carga pareja para cada docente</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc2ee" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg>Horario por curso y por docente, listo para exportar</li>
         </ul>
-        <a href="#horarios" class="btn btn-marca">Ver cómo funciona</a>
+        <p class="prod-mas">¿Las clases empiezan y el horario todavía no cierra? Tenemos la solución.</p>
+        <a href="#horarios" class="btn btn-claro">Ver cómo funciona</a>
       </article>
     </div>
   </div>
